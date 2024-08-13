@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $token = $request->bearerToken();
         if (!$token) {
-            return response()->json(['error' => 'トークンが提供されていません'], 401);
+            return response()->json(['error' => '不正訪問'], 401);
         }
         //dump($token);
         try {
@@ -37,10 +37,10 @@ class UserController extends Controller
             if ($user) {
                 return response()->json(['success' => 200, 'result' => $user]);
             } else {
-                return response()->json(['error' => 'ユーザーが見つかりません'], 404);
+                return response()->json(['error' => 'ユーザーが見つかない'], 404);
             }
         } catch (Exception $e) {
-            return response()->json(['error' => '無効なトークン'], 401);
+            return response()->json(['error' => '無効訪問'], 401);
         }
     }
 
@@ -55,7 +55,7 @@ class UserController extends Controller
         //TOKENの取得
         $token = $request->bearerToken();
         if (!$token) {
-            return response()->json(['error' => 'トークンが提供されていません'], 401);
+            return response()->json(['error' => '不正訪問'], 401);
         }
         //チェック
         try {
@@ -63,17 +63,17 @@ class UserController extends Controller
             $payload = JWT::decode($token, $key);
             $userId = $payload->sub;
         } catch (Exception $e) {
-            return response()->json(['error' => '無効なトークン', 'message' => $e->getMessage()], 401);
+            return response()->json(['error' => '無効訪問', 'message' => $e->getMessage()], 401);
         }
         //ユーザーＩＤによって情報を取得
         $user = UserInfo::find($userId);
         if (!$user) {
-            return response()->json(['error' => 'ユーザーが見つかりません'], 408);
+            return response()->json(['error' => 'ユーザーが見つかない'], 408);
         }
         //ユーザーの記事を取得
         $articles = $user->getArticles($userId);
         if ($articles->isEmpty()) {
-            return response()->json(['error' => '記事が見つかりません'], 408);
+            return response()->json(['error' => '記事が見つかない'], 408);
         }
         return response()->json(['success' => 200, 'result' => $articles->toArray()]);
 
@@ -93,7 +93,7 @@ class UserController extends Controller
             return response()->json(['error' => '不正訪問'], 401);
         }
         if ($title === null || $body === null) {
-            return response()->json(['error' => 'タイトルと本文がNullです'], 400);
+            return response()->json(['error' => '不正訪問'], 400);
         }
         //チェック
         try {
@@ -101,7 +101,7 @@ class UserController extends Controller
             $payload = JWT::decode($token, $key);
             $userId = $payload->sub;
         } catch (Exception $e) {
-            return response()->json(['error' => '無効なトークン', 'message' => $e->getMessage()], 401);
+            return response()->json(['error' => '無効訪問', 'message' => $e->getMessage()], 401);
         }
         //トランザクション開始
         DB::beginTransaction();
@@ -111,14 +111,14 @@ class UserController extends Controller
                 $result = ArticleUser::insertArticleUser($articleId, $userId);
                 if($result){
                     DB::commit();
-                    return response()->json(['success' => 200, 'result' => '記事がアップロードされました']);
+                    return response()->json(['success' => 200, 'result' => '記事がアップロードされた']);
                 }
             }
         }catch (Exception $e){
             DB::rollBack();
-            return response()->json(['error' => 'ロールバックに失敗しました', 'message' => $e->getMessage()], 401);
+            return response()->json(['error' => 'ロールバック', 'message' => $e->getMessage()], 401);
         }
-        return response()->json(['error' => 'アップロードに失敗しました'], 401);
+        return response()->json(['error' => 'アップロードに失敗した'], 401);
     }
     /**
      * @param $id
@@ -134,12 +134,12 @@ class UserController extends Controller
             if ($article) {
                 $article->status = 0;
                 $article->save();
-                return response()->json(['success' => 200, 'result' => '記事が削除されました']);
+                return response()->json(['success' => 200, 'result' => '記事が削除された']);
             } else {
-                return response()->json(['error' => '記事が見つかりません'], 404);
+                return response()->json(['error' => '記事が見つかない'], 404);
             }
         }catch (Exception $e) {
-            return response()->json(['error' => '記事の削除に失敗しました', 'message' => $e->getMessage()], 500);
+            return response()->json(['error' => '記事の削除に失敗', 'message' => $e->getMessage()], 500);
         }
     }
 }

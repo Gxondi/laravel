@@ -31,7 +31,7 @@ class LoginController extends Controller
         $user = UserInfo::where('username', $username)->first();
 
         if (!$user || !Hash::check($password, $user->password)) {
-            return response()->json(['error' => 'パスワードが一致しません'], 401);
+            return response()->json(['error' => 'パスワードが一致しない'], 401);
         }
 
         $payload = [

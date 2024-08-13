@@ -23,7 +23,7 @@ class RegController extends Controller
         //$post = $request->post();
         //dump($post);
         if ($password != $confirm_password) {
-            return response()->json(['error' => 'パスワードが一致しません'], 400);
+            return response()->json(['error' => 'パスワードが一致しない'], 400);
         }
 
         $regValue = [
@@ -34,7 +34,7 @@ class RegController extends Controller
         if (UserInfo::doReg($regValue) === true) {
             return response()->json(['success' => 200, 'redirect_url' => route('login')]);
         } else {
-            return response()->json(['error' => '登録に失敗しました'], 401);
+            return response()->json(['error' => '登録に失敗した'], 401);
         }
     }
 }
