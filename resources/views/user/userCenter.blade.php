@@ -10,9 +10,8 @@
 </head>
 <style>
     header {
-        margin-bottom: 20px; /* 确保header和top之间有间隔 */
+        margin-bottom: 20px;
     }
-
     .top {
         padding: 20px;
         background-color: #f9f9f9;
@@ -21,11 +20,15 @@
         width: 50%;
         max-width: 600px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        margin: 0 auto;
+        /* 确保内容不会被 footer 遮挡 */
+        margin: 0 auto 20px;
     }
 </style>
+
+
+
 <body>
-@include('user.common.header')
+@include('user.common.header', ['userInfo' => $userInfo])
 <div class="main">
     <!-- 顶部区域 -->
     <div class="top">
@@ -33,9 +36,10 @@
     </div>
     <!-- 下部区域 -->
     <div class="article">
-        @include('user.common.articleList')
+        @include('user.common.articleList', ['articles' => $articles])
     </div>
 </div>
 @include('user.common.footer')
+
 </body>
 </html>

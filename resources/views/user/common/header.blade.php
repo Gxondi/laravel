@@ -1,42 +1,22 @@
 <header>
-    @csrf
-    <div class="container-full">
-        <div class="site-name">
-            我的网站
+    <form id="userInfoForm" action="{{ route('userCenter') }}" method="GET">
+        @csrf
+        <div class="container-full">
+            <div class="site-name">
+                記事管理システム
+            </div>
+            @if($userInfo)
+                <div class="user-info">
+{{--                    @dd($userInfo)--}}
+                    <span>ようこそ, {{ $userInfo['user']['username'] }}!</span>
+                    <a href="{{ route('logout') }}" class="logout-button">ログアウト</a>
+                </div>
+            @else
+                <div class="user-info">
+                    <span>ログインしてください。</span>
+                    <a href="{{ route('login') }}" class="login-button">ログイン</a>
+                </div>
+            @endif
         </div>
-        <div id="user-info">
-            dsadasdasdas
-        </div>
-    </div>
+    </form>
 </header>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const token = localStorage.getItem('token');
-        const userInfoContainer = document.getElementById('user-info');
-        //debugger;
-        console.log(token);
-        if (token) {
-            fetch('getUserInfo', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            }).then(response => response.json()).then(data => {
-                console.log(data);
-                if (data.success === 200) {
-                    console.log(data.result);
-                    userInfoContainer.innerHTML = `ようこそ, ${data.result.username}! <a href="{{ route('logout') }}" class="logout-button">ログアウト</a>`;
-                } else {
-                    window.location.href = @json(route('login'));
-                }
-            }).catch(error => {
-                    console.error('Error:', error);
-                });
-        } else {
-            window.location.href = @json(route('login'));
-        }
-    });
-</script>

@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,42 +19,28 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('user/login');
 })->name('login');
-
-//ログイン画面
-Route::get('/login', function () {
-    return view('user/login');
-})->name('login');
-
 //新規登録画面
 Route::get('/register', function () {
     return view('user/register');
 })->name('register');
 
-//ユーザーログイン画面
-use App\Http\Controllers\LoginController;
-Route::post('/doLogin', [LoginController::class, "doLogin"]);
 
-//ユーザー新規登録画面
-use App\Http\Controllers\RegController;
-Route::post('/doRegister', [RegController::class, "doRegister"]);
-
-//ユーザーセンター画面
-Route::get('/userCenter', function () {
-    return view('user/userCenter');
-})->name('userCenter');
-
-////ユーザー情報取得
-use App\Http\Controllers\UserController;
-Route::post('getUserInfo', [UserController::class, "getUserInfo"]);
-Route::post('getArticles', [UserController::class, "getArticles"]);
-Route::post('upload', [UserController::class, "upload"]);
+//ユーザーログイン作業
+Route::post('/login', [LoginController::class, "login"])->name('login.login');
+//ユーザー新規登録作業
+Route::post('/register', [RegController::class, "register"])->name('register.register');
+//ユーザー情報取得
+Route::get('getUserInfo', [UserController::class, "getUserInfo"])->name('getUserInfo');
+Route::get('getArticles', [UserController::class, "getArticles"])->name('getArticles');
+Route::get('userCenter', [UserController::class, 'showData'])->name('userCenter');
+Route::post('upload', [UserController::class, "upload"])->name('upload');
+Route::delete('deleteArticle/{id}', [UserController::class, 'deleteArticle'])->name('deleteArticle');
 
 Route::get('logout', function () {
     Auth::logout();
     return redirect()->route('login');
 })->name('logout');
-///deleteArticle/${article.id}`
-Route::post('deleteArticle/{id}', [UserController::class, 'deleteArticle']);
+
 
 ////控制器路由
 ////路由规则：当访问/test时，调用Ding控制器的test方法

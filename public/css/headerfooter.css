@@ -2,13 +2,16 @@
 footer {
     background-color: #333;
     color: #fff;
-    padding: 5px 0; /* 减小高度 */
+    padding: 10px 0; /* 增加高度 */
     text-align: center;
     position: fixed;
     width: 100%;
     bottom: 0;
+    z-index: 999;
 }
-
+.article {
+    margin-bottom: 50px; /* 留出足够空间给 footer */
+}
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
@@ -36,11 +39,13 @@ footer {
     text-decoration: underline;
 }
 
-.main{
+.main {
     min-width: 100%;
-    height: calc(100vh - 50px);
+    padding-top: 60px;
+    padding-bottom: 50px;
     overflow: hidden;
 }
+
 
 .header {
     background-color: #fff;
@@ -123,7 +128,7 @@ header {
 .main {
     min-width: 100%;
     padding-top: 60px; /* 确保内容不被header覆盖 */
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 footer {

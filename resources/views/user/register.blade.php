@@ -11,8 +11,7 @@
 <body>
 <div class="container">
     <h1 style="margin-bottom: 10px;text-align: center">新規登録</h1>
-
-    <form id="registerForm" action="/doRegister" method="POST">
+    <form id="registerForm" action="{{route('register.register')}}" method="POST">
         @csrf
         <ul>
             <li class="line">
@@ -30,31 +29,5 @@
         </ul>
     </form>
 </div>
-<script>
-    document.getElementById('registerForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const form = event.target;
-        const formData = new FormData(form);
-        fetch(form.action, {
-            method: form.method,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success === 200) {
-                    window.location.href = data.redirect_url;
-                } else {
-                    alert(data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    });
-</script>
 </body>
 </html>

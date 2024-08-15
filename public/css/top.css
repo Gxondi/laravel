@@ -53,7 +53,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    gap: 100px; 
+    gap: 100px;
 }
 
 .top .btn {

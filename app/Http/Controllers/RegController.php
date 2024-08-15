@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\UserInfo;
 
@@ -11,19 +12,23 @@ class RegController extends Controller
 {
     /**
      * @param Request $request
-     * @return JsonResponse
+     * @return RedirectResponse
      * @throws Exception
      * ログイン　プロセス
      */
-    public function doRegister(Request $request): JsonResponse
+    public function register(Request $request): RedirectResponse
     {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string'
+        ]);
         $username = $request->post('username');
         $password = $request->post('password');
         $confirm_password = $request->post('confirm_password');
         //$post = $request->post();
         //dump($post);
         if ($password != $confirm_password) {
-            return response()->json(['error' => 'パスワードが一致しない'], 400);
+            return redirect()->back()->with('error', 'パスワードが一致しない');
         }
 
         $regValue = [
@@ -32,9 +37,9 @@ class RegController extends Controller
         ];
 
         if (UserInfo::doReg($regValue) === true) {
-            return response()->json(['success' => 200, 'redirect_url' => route('login')]);
+            return redirect()->route('login')->with(['success' => '登録成功']);
         } else {
-            return response()->json(['error' => '登録に失敗した'], 401);
+            return redirect()->back()->with('error', '登録失敗');
         }
     }
 }

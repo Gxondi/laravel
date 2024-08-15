@@ -11,19 +11,16 @@ class Article extends Model
     protected $table = 'article';
     protected $primaryKey = 'id';
     public $incrementing = true;
-    public $timestamps = false;
-    const CREATED_AT = 'createTime';
-    const UPDATED_AT = 'updateTime';
-    //填充字段
-    protected $fillable = ['title', 'body', 'status','createTime', 'updateTime'];
+    public $timestamps = true;
+
     public static function insert($title, $body): int
     {
         $newArticle = new self();
         $newArticle->title = $title;
         $newArticle->body = $body;
         $newArticle->status = "1";
-        $newArticle->createTime = now();
-        $newArticle->updateTime = now();
+//        $newArticle->createTime = now();
+//        $newArticle->updateTime = now();
         $newArticle->save();
         return $newArticle->id;
     }
