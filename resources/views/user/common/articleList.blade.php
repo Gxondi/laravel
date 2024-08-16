@@ -39,7 +39,7 @@
         </thead>
         <tbody>
         @if(isset($articles['articles']) && !empty($articles['articles']))
-        @foreach($articles['articles'] as $article)
+            @foreach($articles['articles'] as $article)
                 @if($article['status'] == 1)
                     <tr>
                         <td>{{ $article['title'] }}</td>
@@ -47,7 +47,8 @@
                         <td>{{ \Carbon\Carbon::parse($article['created_at'])->format('Y-m-d H:i:s') }}
                         </td>
                         <td>
-                            <form action="{{ route('deleteArticle', ['id' => $article['id']]) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('deleteArticle', ['id' => $article['id']]) }}" method="POST"
+                                  style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit">削除</button>
