@@ -19,8 +19,6 @@ class Article extends Model
         $newArticle->title = $title;
         $newArticle->body = $body;
         $newArticle->status = "1";
-//        $newArticle->createTime = now();
-//        $newArticle->updateTime = now();
         $newArticle->save();
         return $newArticle->id;
     }

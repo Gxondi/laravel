@@ -94,7 +94,6 @@ class UserController extends Controller
         DB::beginTransaction();
         try {
             $articleId = Article::insert($title, $body);
-
             if ($articleId) {
                 $result = ArticleUser::insertArticleUser($articleId, $userId);
                 if ($result) {
@@ -122,7 +121,6 @@ class UserController extends Controller
             if ($article) {
                 $article->status = 0;
                 $article->save();
-//                dd($article);
                 return redirect()->route('userCenter')->with(['success' => '200'],);
             } else {
                 return redirect()->route('userCenter')->with('error', '記事が見つかない');

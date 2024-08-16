@@ -48,7 +48,6 @@
                         </td>
                         <td>
                             <form action="{{ route('deleteArticle', ['id' => $article['id']]) }}" method="POST" style="display:inline;">
-                                @csrf
                                 @method('DELETE')
                                 <button type="submit">削除</button>
                             </form>

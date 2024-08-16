@@ -20,7 +20,6 @@
         width: 50%;
         max-width: 600px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        /* 确保内容不会被 footer 遮挡 */
         margin: 0 auto 20px;
     }
 </style>

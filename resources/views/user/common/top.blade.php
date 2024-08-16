@@ -1,6 +1,5 @@
 <div class="top">
     <form id="articleForm" method="POST" action="{{ route('upload') }}">
-        @csrf
         <ul>
             <li class="title">
                 <input type="text" name="title" id="title" placeholder="文章タイトル" required autocomplete="title">

@@ -50,10 +50,7 @@ class LoginController extends Controller
             }
         }
         Cookie::queue('token', $jwt, 60);
-        return redirect()->route('userCenter')->with([
-            'success' => 200,
-        ]);
-
+        return redirect()->route('userCenter')->with(['success' => 200]);
     }
     /*
      * @param $token

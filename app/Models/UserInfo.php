@@ -22,7 +22,6 @@ class UserInfo extends Model
     //DB　新規登録　作業
     public static function doReg($regValue): bool
     {
-        //usernameが存在するかどうかを確認
         $user = UserInfo::where('username', $regValue['username'])->first();
         //dump("user" , $user);
         if ($user !== null) {
@@ -32,7 +31,6 @@ class UserInfo extends Model
             $newUser = new self();
             $newUser->username = $regValue['username'];
             $newUser->password = Hash::make($regValue['password']);
-            //dump("newUser" , $newUser);
             return $newUser->save();
         }
     }
